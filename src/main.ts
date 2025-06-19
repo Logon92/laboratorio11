@@ -34,3 +34,33 @@ document.getElementById("validarBtn")?.addEventListener("click", () => {
     const input = (document.getElementById("floatingInput") as HTMLInputElement).value;
     validarIBAN(input);
 });
+
+
+// APARTADO B
+const extraerBtn = document.getElementById("extraerBtn") as HTMLButtonElement;
+const htmlInput = document.getElementById("htmlInput") as HTMLTextAreaElement;
+const resultado = document.getElementById("resultado") as HTMLDivElement;
+
+extraerBtn.addEventListener("click", () => {
+    const contenido = htmlInput.value;
+
+    const regexImg = /<img[^>]+src=["']([^"']+)["'][^>]*>/gi;
+
+    let match;
+    const urls: string[] = [];
+
+    while ((match = regexImg.exec(contenido)) !== null) {
+        urls.push(match[1]);
+    }
+
+    if (urls.length === 0) {
+        resultado.innerHTML = "<p class='text-danger'>No se encontraron imágenes.</p>";
+        return;
+    }
+
+    resultado.innerHTML = urls
+        .map(
+        url => `<div><a href="${url}" target="_blank">${url}</a></div>`
+        )
+        .join("");
+});
