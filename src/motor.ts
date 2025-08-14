@@ -1,6 +1,6 @@
 import {bancos} from './modelo'
 
-export const validarIBAN = (value: string): boolean => {
+export const validarIBAN = (value: string): void => {
     const patron = /^(?<codigoPais>[A-Z]{2})(?<digitoControl>\d{2})(?<codigoBanco>\d{4})(?<codigoSucursal>\d{4})(?<digitoControl2>\d{2})(?<numeroCuenta>\d{10})$/;
     const coincidencia = patron.exec(value.replace(/\s|-/g, ''));
 
@@ -19,12 +19,8 @@ export const validarIBAN = (value: string): boolean => {
         setText("sucursal", `Código sucursal: ${codigoSucursal}`);
         setText("control", `Dígito de control: ${digitoControl2}`);
         setText("cuenta", `Número de cuenta: ${numeroCuenta}`);
-
-        return true;
-    } 
-
-    // Si no coincide, limpiar campos
-    setText("formato", "El IBAN NO está bien formado");
-    ["validez","banco","sucursal","control","cuenta"].forEach(id => setText(id, ""));
-    return false;
+    } else {
+        setText("formato", "El IBAN NO está bien formado");
+        ["validez","banco","sucursal","control","cuenta"].forEach(id => setText(id, ""));
+    }
 };
